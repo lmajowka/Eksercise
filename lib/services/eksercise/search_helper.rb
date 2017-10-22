@@ -20,7 +20,7 @@ module Services
       private
 
       def parse_age(string)
-        age = string.scan(/([^\d]|^)([0-9]{1,3})([^\d]|$)/) # Greedy match numbers with 2 digits inside a string
+        age = string.scan(/([^\d]|^)([0-9]{1,3})([^\d]|$)/) # Greedy match numbers with maximum 3 digits inside a string
                   .flatten
                   .select{|val| val != '' && val != ' ' }
                   .select{|val| val.to_i < MAXIMUM_AGE}
