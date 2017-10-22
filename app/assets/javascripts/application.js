@@ -11,6 +11,7 @@
 // about supported directives.
 //
 
+//= require eksercise
 //= require jquery
 //= require turbolinks
 //= require_tree .

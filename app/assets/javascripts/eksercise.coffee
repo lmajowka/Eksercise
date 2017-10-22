@@ -1,3 +1,4 @@
 window.Eksercise =
   Pages: {}
+  UIComponents: {}
 

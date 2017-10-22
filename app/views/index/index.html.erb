@@ -5,14 +5,14 @@
       Type your search query
     </label>
     <input class="cui__input__input"
-           onkeyup="Eksercise.Pages.Index.resetSearchInput(this);Eksercise.Pages.Index.search(event, this)"
-           onkeypress="Eksercise.Pages.Index.resetSearchInput(this)"
+           onkeyup="Eksercise.UIComponents.SearchInput.resetSearchInput(this);Eksercise.Pages.Index.search(event, this)"
+           onkeydown="Eksercise.UIComponents.SearchInput.resetSearchInput(this)"
     />
   </div>
 
   <div class="results">
 
-    <div class="cui__selector--direct title">
+    <div class="cui__selector--direct title" id="search_results_container">
 
       <!--<h2 class="cui__selector&#45;&#45;direct__title">-->
         <!--Search results-->

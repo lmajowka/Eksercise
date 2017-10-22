@@ -1,0 +1,11 @@
+<div class="cui__selector--direct__item">
+    <img class="user-avatar" src="<%= picture %>" />
+
+    <div class="cui__selector--direct__label">
+        <%= name %> (<%= Eksercise.UIComponents.SearchResult.calculateAge(birthday) %>), <%= phone %>
+    </div>
+
+    <p class="cui__selector--direct__description">
+        <%= address['street'] %>. <%= address['city'] %>, <%= address['country'] %>.
+    </p>
+</div>
