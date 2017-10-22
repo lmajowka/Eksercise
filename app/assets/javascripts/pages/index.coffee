@@ -10,3 +10,14 @@ class Eksercise.Pages.Index
       placeholder = 'Type your search query'
 
     $(inputElement.parentElement).find('label').html placeholder
+
+
+  @search: (event, inputElement) ->
+    if event.keyCode == 13
+      $.ajax(
+        type: 'GET'
+        url: '/search'
+        data: { query: inputElement.value }
+        success: ->
+          alert 'foi'
+      )

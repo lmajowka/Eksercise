@@ -5,7 +5,7 @@
       Type your search query
     </label>
     <input class="cui__input__input"
-           onkeyup="Eksercise.Pages.Index.resetSearchInput(this)"
+           onkeyup="Eksercise.Pages.Index.resetSearchInput(this);Eksercise.Pages.Index.search(event, this)"
            onkeypress="Eksercise.Pages.Index.resetSearchInput(this)"
     />
   </div>
