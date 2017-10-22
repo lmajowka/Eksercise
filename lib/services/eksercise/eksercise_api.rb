@@ -1,5 +1,5 @@
 module Services
-  module EkserciseApi
+  module Eksercise
     class EkserciseApi
 
     def self.search(query)
@@ -27,19 +27,10 @@ module Services
       parsed_response2
     end
 
-    def self.parse_query(query)
-      {
-          age: parse_age(query)
-      }
-    end
+
 
     private
 
-    def self.parse_age(string)
-      age = string.scan(/([^\d]|^)([0-9]{1,2})([^\d]|$)/) # Greedy match numbers with 2 digits inside a string
-                .flatten
-                .select{|val| val != '' && val != ' ' }
-    end
 
     def self.authentication_headers
       {
