@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Services::Eksercise::SearchHelper do
+RSpec.describe Services::Eksercise::SearchParser do
 
   describe '#parse_query' do
 
@@ -10,7 +10,7 @@ RSpec.describe Services::Eksercise::SearchHelper do
 
     context 'search for: Prof. Elisabeth Änglund 33 9803940' do
 
-      subject { Services::Eksercise::SearchHelper.new 'Prof. Elisabeth Änglund 33 9803940' }
+      subject { Services::Eksercise::SearchParser.new 'Prof. Elisabeth Änglund 33 9803940' }
 
       it 'parses the query and retrieves the right age' do
         expect(@parsed_query[:age]).to eq '33'
@@ -28,7 +28,7 @@ RSpec.describe Services::Eksercise::SearchHelper do
 
     context 'search for: 302 Madison Avenue Clair 43' do
 
-      subject { Services::Eksercise::SearchHelper.new '302 Madison Avenue Clair 43' }
+      subject { Services::Eksercise::SearchParser.new '302 Madison Avenue Clair 43' }
 
       it 'returns only values between 0 and 130 for age' do
         expect(@parsed_query[:age]).to eq '43'
@@ -43,7 +43,7 @@ RSpec.describe Services::Eksercise::SearchHelper do
 
     context 'searching only for age' do
 
-      subject { Services::Eksercise::SearchHelper.new '24' }
+      subject { Services::Eksercise::SearchParser.new '24' }
 
       it 'parses the query and retrieve the right age' do
         expect(@parsed_query[:age]).to eq '24'
