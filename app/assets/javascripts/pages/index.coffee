@@ -22,12 +22,13 @@ class Eksercise.Pages.Index
     $.ajax(
       type: 'GET'
       url: '/search'
-      data: { query: @inputElement().value, page: @pageResult }
+      data: { query: @inputElement().value, page: @pageResult, uuid: uniqueUserIdentifier }
     )
 
   @handleSearchResponse: (data) ->
     @blockLoadMore = false unless data.length == 0
     Eksercise.UIComponents.SearchResult.renderSearchResults data, @pageResult
+    seachInputCompoment = new Eksercise.UIComponents.SearchInput @inputElement()
     seachInputCompoment.enableSearchInput()
 
   @loadMore: ->

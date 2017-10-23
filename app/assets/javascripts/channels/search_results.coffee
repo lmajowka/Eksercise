@@ -1,4 +1,4 @@
-App.search_results = App.cable.subscriptions.create "SearchResultsChannel",
+App.search_results = App.cable.subscriptions.create { channel: "SearchResultsChannel", uuid: uniqueUserIdentifier },
   connected: ->
     # Called when the subscription is ready for use on the server
 

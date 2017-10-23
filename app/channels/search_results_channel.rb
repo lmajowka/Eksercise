@@ -1,6 +1,6 @@
 class SearchResultsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'search_results'
+    stream_from "search_results#{params[:uuid]}"
   end
 
   def unsubscribed

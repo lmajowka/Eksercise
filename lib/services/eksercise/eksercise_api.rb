@@ -5,10 +5,10 @@ module Services
       API_URL = 'http://eksercise-api.herokuapp.com%s'
       AUTHENTICATION_HEADERS = { 'X-KLARNA-TOKEN' => 'bc6132fb-16b9-4f6a-ab3c-c5c9017dbcef' }
 
-      def self.search(query, page)
+      def self.search(query, page, uuid)
 
         search_id = get_search_id(query, page)
-        Resque.enqueue(PollForSearchResponse, search_id)
+        Resque.enqueue(PollForSearchResponse, search_id, uuid)
 
       end
 
@@ -38,7 +38,7 @@ module Services
 
       end
 
-      def self.poll_for_search_response(search_id)
+      def self.poll_for_search_response(search_id, uuid)
 
         search_response = nil
         current_status = 102
@@ -57,7 +57,7 @@ module Services
               current_status = http.response_header.status
               if current_status == 200
                 search_response = JSON.parse http.response
-                ActionCable.server.broadcast 'search_results', search_response
+                ActionCable.server.broadcast "search_results#{uuid}", search_response
               end
               EM.stop
             }
