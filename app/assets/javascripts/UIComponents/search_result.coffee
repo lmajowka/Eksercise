@@ -1,10 +1,15 @@
 class Eksercise.UIComponents.SearchResult
 
-  @renderSearchResults: (data) ->
+  @resetSearchResults: ->
     $('#search_results_container').html ''
-    $('#search_results_container').append @searchResultsTitle()
-    for result in data
-      $('#search_results_container').append(@renderSearchResult result)
+
+  @renderSearchResults: (data) ->
+    if data.length == 0
+      $('#search_results_container').append @noResultsTitle()
+    else
+      $('#search_results_container').append @searchResultsTitle()
+      for result in data
+        $('#search_results_container').append(@renderSearchResult result)
 
 
   @searchResultsTitle: ->
@@ -18,3 +23,6 @@ class Eksercise.UIComponents.SearchResult
     ageDifMs = Date.now() - birthday.getTime()
     ageDate = new Date(ageDifMs)
     Math.abs(ageDate.getUTCFullYear() - 1970)
+
+  @noResultsTitle: ->
+    '<h2 class="cui__selector&#45;&#45;direct__title"> No results, please review your search or try a different one </h2>'

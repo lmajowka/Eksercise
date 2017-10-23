@@ -1,7 +1,6 @@
 class Eksercise.UIComponents.SearchInput
 
-  @clearSearchInput: (inputElement) ->
-    $(inputElement.parentElement).find('label').html ''
+  constructor: (@inputElement) ->
 
   @resetSearchInput: (inputElement) ->
     if inputElement.value.length > 0
@@ -10,3 +9,11 @@ class Eksercise.UIComponents.SearchInput
       placeholder = 'Type your search query'
 
     $(inputElement.parentElement).find('label').html placeholder
+
+  disableSearchInput: ->
+    $(@inputElement).attr('disabled', true)
+    $(@inputElement.parentElement).addClass('is-disabled')
+
+  enableSearchInput: ->
+    $(@inputElement).attr('disabled', false)
+    $(@inputElement.parentElement).removeClass('is-disabled')
