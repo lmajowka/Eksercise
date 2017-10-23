@@ -3,13 +3,17 @@ class Eksercise.UIComponents.SearchResult
   @resetSearchResults: ->
     $('#search_results_container').html ''
 
-  @renderSearchResults: (data) ->
-    if data.length == 0
+  @renderSearchResults: (data, page) ->
+    if page == 1 && data.length == 0
       $('#search_results_container').append @noResultsTitle()
-    else
-      $('#search_results_container').append @searchResultsTitle()
+
+    if data.length > 0
+      if page == 1
+        $('#search_results_container').append @searchResultsTitle()
       for result in data
         $('#search_results_container').append(@renderSearchResult result)
+
+
 
 
   @searchResultsTitle: ->

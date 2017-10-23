@@ -5,24 +5,23 @@ module Services
       API_URL = 'http://eksercise-api.herokuapp.com%s'
       AUTHENTICATION_HEADERS = { 'X-KLARNA-TOKEN' => 'bc6132fb-16b9-4f6a-ab3c-c5c9017dbcef' }
 
-      def self.search(query)
+      def self.search(query, page)
 
-        search_id = get_search_id(query)
-
+        search_id = get_search_id(query, page)
         poll_for_search_response search_id
 
       end
 
-      def self.get_search_id(query)
+      def self.get_search_id(query, page)
 
         search_id = nil
-        parsed_query = SearchParser.new(query).parse_query
+        parsed_query = SearchParser.new(query).parse_query.merge({ page: page })
 
         EM.run do
 
           url = API_URL % '/people/search'
 
-          http = EventMachine::HttpRequest.new(url, :connect_timeout => 10, :inactivity_timeout => 20).post({
+          http = EventMachine::HttpRequest.new(url, connect_timeout: 10, inactivity_timeout: 20).post({
              head: AUTHENTICATION_HEADERS,
              body: parsed_query
           })
@@ -50,7 +49,7 @@ module Services
 
             url =  API_URL % "/people?searchRequestId=#{search_id}"
 
-            http = EventMachine::HttpRequest.new(url, :connect_timeout => 10, :inactivity_timeout => 20).get({
+            http = EventMachine::HttpRequest.new(url, connect_timeout: 10, inactivity_timeout: 20).get({
               head: AUTHENTICATION_HEADERS,
             })
 

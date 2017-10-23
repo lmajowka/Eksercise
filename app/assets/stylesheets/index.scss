@@ -17,3 +17,11 @@
 .results {
   margin-top: 40px;
 }
+
+.loading{
+  background: image-url('loading.gif');
+  width: 130px;
+  height: 220px;
+  background-position: -146px -124px;
+  display: none;
+}

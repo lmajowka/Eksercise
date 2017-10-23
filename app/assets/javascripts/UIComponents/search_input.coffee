@@ -13,7 +13,9 @@ class Eksercise.UIComponents.SearchInput
   disableSearchInput: ->
     $(@inputElement).attr('disabled', true)
     $(@inputElement.parentElement).addClass('is-disabled')
+    $('.loading').show()
 
   enableSearchInput: ->
     $(@inputElement).attr('disabled', false)
     $(@inputElement.parentElement).removeClass('is-disabled')
+    $('.loading').hide()
