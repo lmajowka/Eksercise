@@ -2,9 +2,13 @@ class Eksercise.Pages.Index
 
   @pageResult = 1
   @blockLoadMore = false
+  @timeOutMessage = null
 
   @inputElement: ->
     $('#search_query_input')[0]
+
+  @searchInputComponent: ->
+    new Eksercise.UIComponents.SearchInput @inputElement()
 
   @search: (event) ->
     if event.keyCode == 13
@@ -15,9 +19,9 @@ class Eksercise.Pages.Index
 
   @requestSearch: ->
     @blockLoadMore = true
+    @timeOutMessage = setTimeout(@requestTimeOut, 20000)
 
-    seachInputCompoment = new Eksercise.UIComponents.SearchInput @inputElement()
-    seachInputCompoment.disableSearchInput()
+    @searchInputComponent().disableSearchInput()
 
     $.ajax(
       type: 'GET'
@@ -28,8 +32,8 @@ class Eksercise.Pages.Index
   @handleSearchResponse: (data) ->
     @blockLoadMore = false unless data.length == 0
     Eksercise.UIComponents.SearchResult.renderSearchResults data, @pageResult
-    seachInputCompoment = new Eksercise.UIComponents.SearchInput @inputElement()
-    seachInputCompoment.enableSearchInput()
+    @searchInputComponent().enableSearchInput()
+    clearTimeout @timeOutMessage
 
   @loadMore: ->
     unless @blockLoadMore
@@ -38,6 +42,10 @@ class Eksercise.Pages.Index
         @pageResult += 1
         @requestSearch()
 
+
+  @requestTimeOut: =>
+    @searchInputComponent().enableSearchInput()
+    alert 'Something went wrong, please try again or contact support'
 
 
 
