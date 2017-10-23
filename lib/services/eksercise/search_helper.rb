@@ -10,13 +10,12 @@ module Services
         @query = query
       end
 
-
       def parse_query
         {
-            age: parse_age,
-            phone: parse_phone,
-            name: parse_name
-        }
+           age: parse_age,
+           phone: parse_phone,
+           name: parse_name
+        }.compact
       end
 
       private
@@ -26,19 +25,19 @@ module Services
                   .flatten
                   .select{|val| val != '' && val != ' ' }
                   .select{|val| val.to_i <= MAXIMUM_AGE}
-                  .first
+                  .try(:first)
       end
 
       def parse_phone
         @query.scan(/[0-9]{3,}/)
             .select{|val| val.to_i > MAXIMUM_AGE}
-            .first
+            .try(:first)
       end
 
       def parse_name
         @query.scan(/[\p{L}\. ]+/) #  \p{L} matches a single character belonging to the "letter" Unicode category
-            .first
-            .strip
+            .try(:first)
+            .try(:strip)
       end
 
     end

@@ -12,7 +12,7 @@ RSpec.describe Services::Eksercise::SearchHelper do
 
       subject { Services::Eksercise::SearchHelper.new 'Prof. Elisabeth Änglund 33 9803940' }
 
-      it 'parses age and retrieve the right age' do
+      it 'parses the query and retrieves the right age' do
         expect(@parsed_query[:age]).to eq '33'
       end
 
@@ -38,6 +38,16 @@ RSpec.describe Services::Eksercise::SearchHelper do
         expect(@parsed_query[:phone]).to eq '302'
       end
 
+
+    end
+
+    context 'searching only for age' do
+
+      subject { Services::Eksercise::SearchHelper.new '24' }
+
+      it 'parses the query and retrieve the right age' do
+        expect(@parsed_query[:age]).to eq '24'
+      end
 
     end
 

@@ -3,20 +3,20 @@ module Services
     class EkserciseApi
 
     def self.search(query)
+
+      parsed_query = SearchHelper.new(query).parse_query
+
       response = HTTParty.post 'http://eksercise-api.herokuapp.com/people/search',
                                {
                                    headers: authentication_headers,
-                                   body: {
-                                       phone: '33'
-                                   }
+                                   body: parsed_query
                                }
 
       parsed_response = JSON.parse response.body
       search_id = parsed_response['id']
 
       sleep(25)
-
-
+      
       response2 = HTTParty.get "http://eksercise-api.herokuapp.com/people?searchRequestId=#{search_id}",
                                {
                                 headers: authentication_headers
@@ -27,10 +27,7 @@ module Services
       parsed_response2
     end
 
-
-
     private
-
 
     def self.authentication_headers
       {
