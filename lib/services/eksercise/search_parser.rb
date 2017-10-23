@@ -1,6 +1,6 @@
 module Services
   module Eksercise
-    class SearchHelper
+    class SearchParser
 
       MAXIMUM_AGE = 130
 

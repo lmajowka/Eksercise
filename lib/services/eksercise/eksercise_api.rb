@@ -7,28 +7,70 @@ module Services
 
       def self.search(query)
 
-      parsed_query = SearchHelper.new(query).parse_query
+        search_id = get_search_id(query)
 
-      response = HTTParty.post API_URL % '/people/search',
-                               {
-                                   headers: AUTHENTICATION_HEADERS,
-                                   body: parsed_query
-                               }
+        poll_for_search_response search_id
 
-      parsed_response = JSON.parse response.body
-      search_id = parsed_response['id']
+      end
 
-      sleep(25)
+      def self.get_search_id(query)
 
-      response2 = HTTParty.get API_URL % "/people?searchRequestId=#{search_id}",
-                               {
-                                headers: AUTHENTICATION_HEADERS
-                               }
+        search_id = nil
+        parsed_query = SearchParser.new(query).parse_query
 
+        EM.run do
 
-      parsed_response2 = JSON.parse response2.body
-      parsed_response2
-    end
+          url = API_URL % '/people/search'
+
+          http = EventMachine::HttpRequest.new(url, :connect_timeout => 10, :inactivity_timeout => 20).post({
+             head: AUTHENTICATION_HEADERS,
+             body: parsed_query
+          })
+
+          http.callback {
+            parsed_response = JSON.parse http.response
+            search_id = parsed_response['id']
+            EM.stop
+          }
+
+        end
+
+        search_id
+
+      end
+
+      def self.poll_for_search_response(search_id)
+
+        search_response = nil
+        current_status = nil
+
+        while current_status != 200 do
+
+          EM.run do
+
+            url =  API_URL % "/people?searchRequestId=#{search_id}"
+
+            http = EventMachine::HttpRequest.new(url, :connect_timeout => 10, :inactivity_timeout => 20).get({
+              head: AUTHENTICATION_HEADERS,
+            })
+
+            http.callback {
+              current_status = http.response_header.status
+              if current_status == 200
+                search_response = JSON.parse http.response
+              end
+              EM.stop
+            }
+
+          end
+
+          sleep(1)
+
+        end
+
+        search_response
+
+      end
 
     end
   end
