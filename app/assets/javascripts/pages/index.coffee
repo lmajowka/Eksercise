@@ -23,12 +23,12 @@ class Eksercise.Pages.Index
       type: 'GET'
       url: '/search'
       data: { query: @inputElement().value, page: @pageResult }
-      success: (data) =>
-        @blockLoadMore = false unless data.length == 0
-        Eksercise.UIComponents.SearchResult.renderSearchResults data, @pageResult
-        seachInputCompoment.enableSearchInput()
     )
 
+  @handleSearchResponse: (data) ->
+    @blockLoadMore = false unless data.length == 0
+    Eksercise.UIComponents.SearchResult.renderSearchResults data, @pageResult
+    seachInputCompoment.enableSearchInput()
 
   @loadMore: ->
     unless @blockLoadMore

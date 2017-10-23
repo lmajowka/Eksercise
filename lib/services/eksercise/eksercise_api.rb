@@ -8,7 +8,7 @@ module Services
       def self.search(query, page)
 
         search_id = get_search_id(query, page)
-        poll_for_search_response search_id
+        Resque.enqueue(PollForSearchResponse, search_id)
 
       end
 
@@ -41,9 +41,9 @@ module Services
       def self.poll_for_search_response(search_id)
 
         search_response = nil
-        current_status = nil
+        current_status = 102
 
-        while current_status != 200 do
+        while current_status == 102 do
 
           EM.run do
 
@@ -57,6 +57,7 @@ module Services
               current_status = http.response_header.status
               if current_status == 200
                 search_response = JSON.parse http.response
+                ActionCable.server.broadcast 'search_results', search_response
               end
               EM.stop
             }

@@ -13,6 +13,7 @@ module Klarnatest
 
     lib = "#{config.root}/lib/**/"
 
+    config.autoload_paths += Dir[Rails.root.join('app', 'workers', '{*/}')]
     config.autoload_paths += Dir[lib]
 
     # Settings in config/environments/* take precedence over those specified here.
