@@ -1,24 +1,14 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To run, make sure you have redis installed and running so you can start a worker:
 
-Things you may want to cover:
+    $ QUEUE="*" resque:work
 
-* Ruby version
+Then, start the rails server and enjoy!
 
-* System dependencies
+To run specs
 
-* Configuration
+    rspec
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
