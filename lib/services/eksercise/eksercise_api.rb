@@ -4,6 +4,8 @@ module Services
 
       API_URL = 'http://eksercise-api.herokuapp.com%s'
       AUTHENTICATION_HEADERS = { 'X-KLARNA-TOKEN' => 'bc6132fb-16b9-4f6a-ab3c-c5c9017dbcef' }
+      IN_PROGRESS_STATUS = 102
+      SUCCESS_STATUS = 200
 
       def self.search(query, page, uuid)
 
@@ -41,9 +43,9 @@ module Services
       def self.poll_for_search_response(search_id, uuid)
 
         search_response = nil
-        current_status = 102
+        current_status = IN_PROGRESS_STATUS
 
-        while current_status == 102 do
+        while current_status == IN_PROGRESS_STATUS do
 
           EM.run do
 
@@ -55,7 +57,7 @@ module Services
 
             http.callback {
               current_status = http.response_header.status
-              if current_status == 200
+              if current_status == SUCCESS_STATUS
                 search_response = JSON.parse http.response
                 ActionCable.server.broadcast "search_results#{uuid}", search_response
               end
