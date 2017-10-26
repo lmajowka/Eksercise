@@ -3,7 +3,7 @@
 To run, make sure you have redis installed and running so you can bundle install and start a worker:
 
     $ bundle install
-    $ QUEUE="*" resque:work
+    $ QUEUE="*" rake resque:work
 
 Then, start the rails server and enjoy!
 
