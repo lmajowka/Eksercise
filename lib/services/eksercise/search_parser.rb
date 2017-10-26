@@ -3,6 +3,7 @@ module Services
     class SearchParser
 
       MAXIMUM_AGE = 130
+      PHONE_PREFIX_SIZE = 4
 
       attr_accessor :query
 
@@ -29,9 +30,15 @@ module Services
       end
 
       def parse_phone
-        @query.scan(/[0-9]{3,}/)
-            .select{|val| val.to_i > MAXIMUM_AGE}
-            .try(:first)
+        phone = @query.scan(/[0-9-]{3,}/)
+                .select{|val| val.to_i > MAXIMUM_AGE}
+                .try(:first)
+
+        if phone.present? && phone.size >= PHONE_PREFIX_SIZE && !phone.match(/-/)
+          return phone.insert(PHONE_PREFIX_SIZE,'-')
+        end
+
+        phone
       end
 
       def parse_name

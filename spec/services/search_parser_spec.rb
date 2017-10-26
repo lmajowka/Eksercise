@@ -17,7 +17,7 @@ RSpec.describe Services::Eksercise::SearchParser do
       end
 
       it 'returns only values greater then 130 for phone' do
-        expect(@parsed_query[:phone]).to eq '9803940'
+        expect(@parsed_query[:phone]).to eq '9803-940'
       end
 
       it 'parses names correctly' do
